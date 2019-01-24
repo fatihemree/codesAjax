@@ -4,16 +4,19 @@
 <div class="contentGrid"><div class="container">
 	<div class="aramaGrid mt-5">
 
+
+
+
 		<form method="post">
 
 			<div class="searchDiv">
-				<input type="search" name="search" class="search" placeholder="Name,Surname,Content...">
+				<input type="search" id="sbox"  name="search" class="search" placeholder="Name,Surname,Content...">
 				<button class="searchS" type="submit"><i class="fa fa-search mx-auto"></i></button>
 			</div>
 			<div class="advancedSearch mx-auto ">
 				<div class="searchSutunGrid">
 					<ul class="searchSutun">
-						<li ><label for="insearch" data-toggle="tooltip" title="aranan değerin tam olmaksızın arama yapar"><input type="checkbox" name="insearch" > İçinde bul</label></li>
+						<li ><label for="insearch" data-toggle="tooltip" title="aranan değerin tam olmaksızın arama yapar"><input type="checkbox" name="insearch" value="icinden" > İçinde bul</label></li>
 						<li ><label  for="id"><input type="radio" name="deger" value="id">id</label></li>
 						<li ><label  for="name"><input type="radio" name="deger" value="name" checked>name</label></li>
 						<li ><label  for="surname"><input type="radio" name="deger" value="surname">surname</label></li>
@@ -30,68 +33,13 @@
 	</div>
 
 	<div class="searchListle mt-5">
-		<div class="row">
+		<div id="yaz" class="row">
 
 
 
-			<?php 
-			include 'baglan.php';
-			$insearch=$_POST["insearch"];
-			$search=$_POST["search"];
-			$deger=$_POST["deger"];
 			
 
-			if ($deger=="hepsi" && isset($insearch)) {
-				$kosulum="WHERE name LIKE ? OR surname LIKE ? OR content LIKE ?";
-				$istenen= array("%$search%","%$search%","%$search%");
-			}
 
-			elseif ($deger=="hepsi" && !isset($insearch)) {
-
-				$kosulum="WHERE id=? OR name=? OR surname=? OR content=?";
-				$istenen= array("$search","$search","$search","$search");
-
-			}else if(isset($insearch) && $deger!="hepsi") {
-
-				$kosulum="WHERE ".$deger." LIKE ?";
-				$istenen=array("%$search%");
-			}
-			else
-			{
-				$kosulum="WHERE ".$deger." LIKE ?";
-				$istenen=array("$search");
-			}
-
-
-
-
-			$cikti = $bag->cek("OBJ_ALL", "codes", "*", $kosulum, $istenen);
-
-			if ($cikti) {
-
-				foreach($cikti as $satir) {
-
-					echo '	<div class="col-4 my-3">
-					<div class="card" style="width: 18rem;">
-					<div class="card-body">
-					<h5 class="card-title">'.$satir->name.'</h5>
-					<h6 class="card-subtitle mb-2 text-muted">'.$satir->surname.'</h6>
-					<p class="card-text">'.$satir->content.'</p>
-					<a href="sil.php?id='.$satir->id.'" class="card-link">sil</a>
-					<a href="guncel.php?id='.$satir->id.'" class="card-link" >güncelle</a>
-					</div>
-					</div>
-					</div>';
-
-				}
-
-			} else {
-
-				echo "hata: ".$cikti;
-			}
-
-
-			?>
 
 
 
@@ -100,7 +48,96 @@
 	</div>
 
 
-</div></div>
+</div>
+</div>
+
+<script type="text/javascript">
+
+var input = document.querySelectorAll(".searchSutun input");  //belirlenen tüm inputları bulur kullanımı basittir.
+var searchbox = document.getElementById("sbox");
+var myvalue;
+var hara=false;  // içindenbul checkbox dolumu boş mu denetlemeye yariyor;
+/*
+** keyup ---> tuşbasıp çektikten sonra işleme başlar.
+** addEventListener ----> multifonksiyon işlem yapmaya yarar tetiklendiği zaman fonksiyonu çalıştırır
+** 
+*/
+
+searchbox.addEventListener("keyup" , function(){
+
+input.forEach(element => {
+if(element.value!="icinden")
+	if(element.checked==true)
+	{
+		myvalue=element.value;
+	}
+	else{
+		if(element.checked==true)
+		{
+hara=true;
+		}
+		else{
+			hara=false;
+		}
+	}
+});
+
+arama(searchbox.value,myvalue,hara); 
+ //ajax yaptırmak istediğim verileri önce fonksiyon olarak açıp parametre olarak gönderiyorum.
+
+} );
+
+
+ function arama(harf,volvo,hara){
+//hiç karakter girilmesse boş yazmasını sağlıyor..
+		if (harf.length == 0) {
+			document.getElementById("yaz").innerHTML = "";
+		}
+
+		else
+
+		{
+
+			var xhttp=new XMLHttpRequest();
+
+			xhttp.onreadystatechange=function(){
+				if(this.readyState== 4 && this.status==200)
+				{
+
+					document.getElementById("yaz").innerHTML = this.responseText;  
+					/*responseText yollamış olduğum php sayfasından verileri çeker bunun içinde gönderdiğim php sayfasında çıktığı echo olarak bastırmam gerekir echo bastırmassan çıktı vermez.*/
+
+				}
+
+
+			}
+			xhttp.open("GET","araAjax.php?deger="+harf+"&&volvo="+volvo+"&&hara="+hara, true); 
+			/* open 3 parametre alır 
+			*** 1. verinin türü GET olursa link göndermeyi sağlar küçük basit veriler için etkilidir POST yapılsaydı linkten veri gönderemezdim.
+
+            *** 2. url gitmek istedğin yeri seçiyorsun burda gitmek istedğimiz yere aynı zamanda veri gönderiyoruz bulunan parametreler
+			harf ==  search.value yazanlar
+			volvo == id,name,surname,content,hepsi ygönderiyor.
+			hara == içinde bulması için checkbox value yolluyor
+
+			***3. true/false 
+			true > asenkron çalışan sürekli denetleyen anlamında  ajax için true olması gerekir <<<yazdığın kodlar sunucu tarafından sürekli denetlenir ve bir kerecik yapmaz>>>
+
+			false > asenkron olmayan <eş zamanlı> server ya da sunucudan istek gelmesi bekler gelmessede istenilen kodları çalışmayı durdurur normal aramadan farksiz.
+	
+			
+			 */
+			xhttp.send();
+
+
+		}
+	}
+
+	
+
+
+
+</script>
 
 
 <?php include 'footer'; ?>
