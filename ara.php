@@ -113,7 +113,7 @@ arama(searchbox.value,myvalue,hara);
 			*** 1. verinin türü GET olursa link göndermeyi sağlar küçük basit veriler için etkilidir POST yapılsaydı linkten veri gönderemezdim.
 
             *** 2. url gitmek istedğin yeri seçiyorsun burda gitmek istedğimiz yere aynı zamanda veri gönderiyoruz bulunan parametreler
-			harf ==  search.value yazanlar
+			harf ==  search.value yazanlar değer BOOL degerinde burdan GÖNDERDİM FAKAT STRİNG OLARAK GÖRDÜ
 			volvo == id,name,surname,content,hepsi ygönderiyor.
 			hara == içinde bulması için checkbox value yolluyor
 
