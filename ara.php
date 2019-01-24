@@ -56,7 +56,7 @@
 var input = document.querySelectorAll(".searchSutun input");  //belirlenen tüm inputları bulur kullanımı basittir.
 var searchbox = document.getElementById("sbox");
 var myvalue;
-var hara=false;  // içindenbul checkbox dolumu boş mu denetlemeye yariyor;
+var hara=false; // içindenbul checkbox dolumu boş mu denetlemeye yariyor;
 /*
 ** keyup ---> tuşbasıp çektikten sonra işleme başlar.
 ** addEventListener ----> multifonksiyon işlem yapmaya yarar tetiklendiği zaman fonksiyonu çalıştırır
@@ -65,23 +65,20 @@ var hara=false;  // içindenbul checkbox dolumu boş mu denetlemeye yariyor;
 
 searchbox.addEventListener("keyup" , function(){
 
-input.forEach(element => {
-if(element.value!="icinden")
-	if(element.checked==true)
-	{
-		myvalue=element.value;
-	}
-	else{
-		if(element.checked==true)
-		{
-hara=true;
-		}
-		else{
-			hara=false;
-		}
-	}
-});
-
+    for (let index = 1; index < input.length; index++) {
+        if(input[index].checked==true)
+        {
+            myvalue=input[index].value;
+        }
+    }
+    if(input[0].checked == true )
+    {
+        hara = true;
+    }
+    else{
+        hara = false;
+    }
+console.log(hara);
 arama(searchbox.value,myvalue,hara); 
  //ajax yaptırmak istediğim verileri önce fonksiyon olarak açıp parametre olarak gönderiyorum.
 
@@ -121,7 +118,7 @@ arama(searchbox.value,myvalue,hara);
 			hara == içinde bulması için checkbox value yolluyor
 
 			***3. true/false 
-			true > asenkron çalışan sürekli denetleyen anlamında  ajax için true olması gerekir <<<yazdığın kodlar sunucu tarafından sürekli denetlenir ve bir kerecik yapmaz>>>
+			true > asenkron çalışan sürekli denetleyen anlamında  ajax için true olması gerekir <<<yazdığın kodlar sunucu tarafından sürekli denetlenir ve bir kerecik yapmaz>
 
 			false > asenkron olmayan <eş zamanlı> server ya da sunucudan istek gelmesi bekler gelmessede istenilen kodları çalışmayı durdurur normal aramadan farksiz.
 	
