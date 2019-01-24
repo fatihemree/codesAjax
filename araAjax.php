@@ -4,27 +4,30 @@
 $search = $_REQUEST["deger"];
 $deger = $_REQUEST["volvo"];
 $insearch= $_REQUEST["hara"];
+
 echo $insearch;
 
-
-if ($deger=="hepsi" && $insearch == true) {
+if ($deger=="hepsi" and $insearch == "true") {
+	echo "1";
 	$kosulum="WHERE name LIKE ? OR surname LIKE ? OR content LIKE ?";
 	$istenen= array("%$search%","%$search%","%$search%");
 }
 
-elseif ($deger=="hepsi" && $insearch != true) {
-
+else if ($deger=="hepsi" and $insearch == "false") {
+echo "12";
 	$kosulum="WHERE id=? OR name=? OR surname=? OR content=?";
 	$istenen= array("$search","$search","$search","$search");
 
-}else if($insearch == true && $deger!="hepsi") {
-
+}
+else if($insearch == "true" and $deger!="hepsi") {
+echo "12";
 	$kosulum="WHERE ".$deger." LIKE ?";
 	$istenen=array("%$search%");
 }
+
 else
 {
-
+echo "14";
 
 	$kosulum="WHERE ".$deger." LIKE ?";
 	$istenen=array("$search");
