@@ -1,4 +1,5 @@
-<?php include 'header.php';
+<?php 
+include 'header.php';
 ?>
 
 <div class="contentGrid"><div class="container">
@@ -10,7 +11,7 @@
 		<form method="post">
 
 			<div class="searchDiv">
-				<input type="search" id="sbox"  name="search" class="search" placeholder="Name,Surname,Content...">
+				<input type="search" id="sbox"  name="search" onkeyup="arama(this.value)" class="search" placeholder="Name,Surname,Content...">
 				<button class="searchS" type="submit"><i class="fa fa-search mx-auto"></i></button>
 			</div>
 			<div class="advancedSearch mx-auto ">
@@ -33,13 +34,9 @@
 	</div>
 
 	<div class="searchListle mt-5">
+	
+	<button onclick="myAjax.ajax()">gönder</button>
 		<div id="yaz" class="row">
-
-
-
-			
-
-
 
 
 
@@ -51,90 +48,11 @@
 </div>
 </div>
 
-<script type="text/javascript">
-
-var input = document.querySelectorAll(".searchSutun input");  //belirlenen tüm inputları bulur kullanımı basittir.
-var searchbox = document.getElementById("sbox");
-var myvalue;
-var hara=false; // içindenbul checkbox dolumu boş mu denetlemeye yariyor;
-/*
-** keyup ---> tuşbasıp çektikten sonra işleme başlar.
-** addEventListener ----> multifonksiyon işlem yapmaya yarar tetiklendiği zaman fonksiyonu çalıştırır
-** 
-*/
-
-searchbox.addEventListener("keyup" , function(){
-
-    for (let index = 1; index < input.length; index++) {
-        if(input[index].checked==true)
-        {
-            myvalue=input[index].value;
-        }
-    }
-    if(input[0].checked == true )
-    {
-        hara = true;
-    }
-    else{
-        hara = false;
-    }
-console.log(hara);
-arama(searchbox.value,myvalue,hara); 
- //ajax yaptırmak istediğim verileri önce fonksiyon olarak açıp parametre olarak gönderiyorum.
-
-} );
-
-
- function arama(harf,volvo,hara){
-//hiç karakter girilmesse boş yazmasını sağlıyor..
-		if (harf.length == 0) {
-			document.getElementById("yaz").innerHTML = "";
-		}
-
-		else
-
-		{
-
-			var xhttp=new XMLHttpRequest();
-
-			xhttp.onreadystatechange=function(){
-				if(this.readyState== 4 && this.status==200)
-				{
-
-					document.getElementById("yaz").innerHTML = this.responseText;  
-					/*responseText yollamış olduğum php sayfasından verileri çeker bunun içinde gönderdiğim php sayfasında çıktığı echo olarak bastırmam gerekir echo bastırmassan çıktı vermez.*/
-
-				}
-
-
-			}
-			xhttp.open("GET","araAjax.php?deger="+harf+"&&volvo="+volvo+"&&hara="+hara, true); 
-			/* open 3 parametre alır 
-			*** 1. verinin türü GET olursa link göndermeyi sağlar küçük basit veriler için etkilidir POST yapılsaydı linkten veri gönderemezdim.
-
-            *** 2. url gitmek istedğin yeri seçiyorsun burda gitmek istedğimiz yere aynı zamanda veri gönderiyoruz bulunan parametreler
-			harf ==  search.value yazanlar değer BOOL degerinde burdan GÖNDERDİM FAKAT STRİNG OLARAK GÖRDÜ
-			volvo == id,name,surname,content,hepsi ygönderiyor.
-			hara == içinde bulması için checkbox value yolluyor
-
-			***3. true/false 
-			true > asenkron çalışan sürekli denetleyen anlamında  ajax için true olması gerekir <<<yazdığın kodlar sunucu tarafından sürekli denetlenir ve bir kerecik yapmaz>
-
-			false > asenkron olmayan <eş zamanlı> server ya da sunucudan istek gelmesi bekler gelmessede istenilen kodları çalışmayı durdurur normal aramadan farksiz.
-	
-			
-			 */
-			xhttp.send();
-
-
-		}
-	}
-
-	
+<script>
 
 
 
 </script>
 
 
-<?php include 'footer'; ?>
+<?php include 'footer.php'; ?>
