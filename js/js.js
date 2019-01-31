@@ -8,12 +8,12 @@ class myAjax {
     let xhttp=new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-       myAjax.codex["print"].innerHTML+= this.responseText;
+       myAjax.codex["print"].innerHTML= this.responseText;
         
       }
     };
-    console.log(this.codex["tur"]);
-   xhttp.open("GET","deneme.txt",true);
+    
+   xhttp.open("GET",this.codex["sendPage"],true);
    xhttp.send();
   }
   static set ajax(value)

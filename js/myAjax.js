@@ -12,8 +12,8 @@ var dom =document.querySelector("#yaz");
 //let er= myAjax.ajax=dom;
 //console.log(er);
 let deneme = "deneme.txt";
-let tur="GET";
-new myAjax(tur,deneme,dom);
+
+new myAjax("GET",sorgum,dom);
  
 
 
