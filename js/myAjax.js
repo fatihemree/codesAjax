@@ -9,7 +9,12 @@ console.log(checkbox+"   "+myvalue+"  "+this.deger);
 
 var dom =document.querySelector("#yaz");
 
-new myAjax(dom);
+//let er= myAjax.ajax=dom;
+//console.log(er);
+let deneme = "deneme.txt";
+let tur="GET";
+new myAjax(tur,deneme,dom);
+ 
 
 
 
