@@ -12,8 +12,8 @@ var dom =document.querySelector("#yaz");
 //let er= myAjax.ajax=dom;
 //console.log(er);
 let deneme = "deneme.txt";
-
-new myAjax("GET",sorgum,dom);
+console.log($("form").serialize());
+new myAjax("POST","araAjax.php",Array("postsend","formnot","search=f&insearch=true&deger=name"),dom);
  
 
 
