@@ -9,11 +9,10 @@ console.log(checkbox+"   "+myvalue+"  "+this.deger);
 
 var dom =document.querySelector("#yaz");
 
-//let er= myAjax.ajax=dom;
-//console.log(er);
+
 let deneme = "deneme.txt";
-console.log($("form").serialize());
-new myAjax("POST","araAjax.php",Array("postsend","formnot","search=f&insearch=true&deger=name"),dom);
+
+new myAjax("GET","deneme.txt",Array("sendnot"),dom);
  
 
 
